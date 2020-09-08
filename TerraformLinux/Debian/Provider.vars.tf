@@ -52,6 +52,10 @@ variable "vm_dns_server" {
   description = "Virtual machine dns server"
 }
 
+variable "vm_dns_server2" {
+   description = "Virtual machine secondary dns server"
+}
+
 variable "vm_folder_name" {
   description = "VM installatino folder"
 }

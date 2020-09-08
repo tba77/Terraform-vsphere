@@ -35,25 +35,9 @@ variable "vsphere_datastore" {
   description = "VMware vSphere Datastore"
 }
 
-#variable "vsphere_datastore2" {
-#  description = "VMware vSphere Datastore"
-#}
-
-#variable "vsphere_datastore3" {
-#  description = "VMware vSphere Datastore"
-#}
-
 variable "vsphere_template" {
   description = "VMware Template"
 }
-
-#variable "vsphere_template2" {
-#  description = "VMware Template"
-#}
-
-#variable "vsphere_template3" {
-#  description = "VMware Template"
-#}
 
 variable "vm_default_gateway" {
   description = "Virtual machine default gateway"
@@ -76,10 +60,10 @@ variable "vm_folder_name" {
   description = "VM installatino folder"
 }
 
-variable "vm_host_name" {
-  description = "Windows host name"
-}
+#variable "vm_host_name" {
+#  description = "Windows host name"
+#}
 
-variable "vm_admin_password" {
+variable "vm_host_password" {
   description = "Administrtor password for windows"
 }

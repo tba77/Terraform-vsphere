@@ -36,7 +36,7 @@ resource "vsphere_virtual_machine" "srvX" {
     #    size             = data.vsphere_virtual_machine.template.disks.0.size
     eagerly_scrub    = data.vsphere_virtual_machine.template.disks.0.eagerly_scrub
     thin_provisioned = data.vsphere_virtual_machine.template.disks.0.thin_provisioned
-    io_limit         = 3000
+    io_limit         = var.srvX_io_limit
   }
 
   #disk {
@@ -70,7 +70,7 @@ resource "vsphere_virtual_machine" "srvX" {
         ipv4_address = var.srvX_vm_ip_address
         ipv4_netmask = var.vm_network_cidr
       }
-      dns_server_list = [var.vm_dns_server]
+      dns_server_list = [var.vm_dns_server, var.vm_dns_server2]
       ipv4_gateway    = var.vm_default_gateway
     }
   }

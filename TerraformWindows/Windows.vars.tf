@@ -34,3 +34,8 @@ variable "$srvX_vm_disk_size" {
 #variable "$srvX_vm_ip_address3" {
 #  description = "Virtual machine IP address"
 #}
+
+variable "$srvX_vm_io_limit" {
+  description = "Disk IOPS limits"
+
+}
