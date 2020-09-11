@@ -75,17 +75,32 @@ resource "vsphere_virtual_machine" "srvX" {
     }
   }
 
-  provisioner "remote-exec" {
+  provisioner "file" {
+    source = "extendlvm.sh" 
+    destination = "extendlvm.sh"
+
     connection {
-      type     = "ssh"
-      host     = var.srvX_vm_ip_address
-      user     = "root"
+      type = "ssh"
+      host = var.Srv01_vm_ip_address
+      user = "root"
       password = var.vm_host_password
     }
 
-    inline = [
-      "yum update -y"
+  }
 
-    ]
+  provisioner "remote-exec" {
+    connection {
+      type     = "ssh"
+      host     = var.Srv01_vm_ip_address
+      user     = "root"
+      password = var.vm_host_password
+    }
+  
+      inline = [
+        "chmod +x extendlvm.sh && sh extendlvm.sh",
+        "apt update -y",
+        "apt dist-upgrade -y"
+        
+      ]
   }
 }
