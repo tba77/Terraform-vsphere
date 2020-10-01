@@ -81,7 +81,7 @@ resource "vsphere_virtual_machine" "srvX" {
 
     connection {
       type = "ssh"
-      host = var.Srv01_vm_ip_address
+      host = var.srvX_vm_ip_address
       user = "root"
       password = var.vm_host_password
     }
@@ -91,7 +91,7 @@ resource "vsphere_virtual_machine" "srvX" {
   provisioner "remote-exec" {
     connection {
       type     = "ssh"
-      host     = var.Srv01_vm_ip_address
+      host     = var.srvX_vm_ip_address
       user     = "root"
       password = var.vm_host_password
     }

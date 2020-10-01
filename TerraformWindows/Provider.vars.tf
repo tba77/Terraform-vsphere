@@ -75,11 +75,3 @@ variable "vm_dns_server2" {
 variable "vm_folder_name" {
   description = "VM installatino folder"
 }
-
-variable "vm_host_name" {
-  description = "Windows host name"
-}
-
-variable "vm_admin_password" {
-  description = "Administrtor password for windows"
-}

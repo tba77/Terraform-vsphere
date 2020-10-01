@@ -36,7 +36,7 @@ resource "vsphere_virtual_machine" "$srvX" {
     #    size             = data.vsphere_virtual_machine.template.disks.0.size
     eagerly_scrub    = data.vsphere_virtual_machine.template.disks.0.eagerly_scrub
     thin_provisioned = data.vsphere_virtual_machine.template.disks.0.thin_provisioned
-    io_limit         = var.srvX_vm_io_limit
+    io_limit         = var.$srvX_vm_io_limit
   }
 
   #disk {
@@ -62,8 +62,8 @@ resource "vsphere_virtual_machine" "$srvX" {
 
     customize {
       windows_options {
-        computer_name  = var.vm_host_name
-        admin_password = var.vm_admin_password
+        computer_name  = var.$srvX_vm_host_name
+        admin_password = var.$srvX_vm_admin_password
         full_name      = "Administrateur"
       }
 

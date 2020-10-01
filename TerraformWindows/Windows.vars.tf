@@ -39,3 +39,11 @@ variable "$srvX_vm_io_limit" {
   description = "Disk IOPS limits"
 
 }
+
+variable "$srvX_vm_host_name" {
+  description = "Windows host name"
+}
+
+variable "$srvX_vm_admin_password" {
+  description = "Administrtor password for windows"
+}
