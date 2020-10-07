@@ -66,10 +66,12 @@ variable "vm_network_cidr" {
 
 variable "vm_dns_server" {
   description = "Virtual machine dns server"
+  default     = "1.1.1.1"
 }
 
 variable "vm_dns_server2" {
    description = "Virtual machine secondary dns server"
+   default     = "8.8.8.8"
 }
 
 variable "vm_folder_name" {

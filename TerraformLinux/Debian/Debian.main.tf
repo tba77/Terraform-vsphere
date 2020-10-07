@@ -1,13 +1,13 @@
-resource "vsphere_virtual_machine" "srvX" {
-  name                        = var.srvX_vm_name
+resource "vsphere_virtual_machine" "Srv09" {
+  name                        = var.Srv09_vm_name
   folder                      = var.vm_folder_name
   wait_for_guest_net_routable = false
   wait_for_guest_net_timeout  = 60
-  num_cpus                    = var.srvX_vm_cpus
-  num_cores_per_socket        = var.srvX_vm_cores
+  num_cpus                    = var.Srv09_vm_cpus
+  num_cores_per_socket        = var.Srv09_vm_cores
   cpu_hot_add_enabled         = true
   cpu_hot_remove_enabled      = true
-  memory                      = var.srvX_vm_memory
+  memory                      = var.Srv09_vm_memory
   memory_hot_add_enabled      = true
   resource_pool_id            = data.vsphere_compute_cluster.cluster.resource_pool_id
   datastore_id                = data.vsphere_datastore.datastore.id
@@ -32,11 +32,11 @@ resource "vsphere_virtual_machine" "srvX" {
 
   disk {
     label = "disk0"
-    size  = var.srvX_vm_disk_size
+    size  = var.Srv09_vm_disk_size
     #    size             = data.vsphere_virtual_machine.template.disks.0.size
     eagerly_scrub    = data.vsphere_virtual_machine.template.disks.0.eagerly_scrub
     thin_provisioned = data.vsphere_virtual_machine.template.disks.0.thin_provisioned
-    io_limit         = var.srvX_io_limit
+    io_limit         = var.Srv09_io_limit
   }
 
   #disk {
@@ -62,12 +62,12 @@ resource "vsphere_virtual_machine" "srvX" {
 
     customize {
       linux_options {
-        host_name = var.srvX_vm_name
-        domain    = var.srvX_vm_domain_name
+        host_name = var.Srv09_vm_name
+        domain    = var.Srv09_vm_domain_name
       }
 
       network_interface {
-        ipv4_address = var.srvX_vm_ip_address
+        ipv4_address = var.Srv09_vm_ip_address
         ipv4_netmask = var.vm_network_cidr
       }
       dns_server_list = [var.vm_dns_server, var.vm_dns_server2]
@@ -81,8 +81,8 @@ resource "vsphere_virtual_machine" "srvX" {
 
     connection {
       type = "ssh"
-      host = var.srvX_vm_ip_address
-      user = "root"
+      host = var.Srv09_vm_ip_address
+      user = "deploy"
       password = var.vm_host_password
     }
 
@@ -91,8 +91,8 @@ resource "vsphere_virtual_machine" "srvX" {
   provisioner "remote-exec" {
     connection {
       type     = "ssh"
-      host     = var.srvX_vm_ip_address
-      user     = "root"
+      host     = var.Srv09_vm_ip_address
+      user     = "deploy"
       password = var.vm_host_password
     }
   
