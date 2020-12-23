@@ -102,4 +102,12 @@ resource "vsphere_virtual_machine" "srvX" {
         
       ]
   }
+
+  provisioner "local-exec" {
+    command = <<EOT
+      /usr/bin/sed -i '/\[linux-servers\]/a ${var.srvX_vm_name}      ansible_host=${var.srvX_vm_ip_address}' ~/Projets/Ansible/inventory
+      ansible-playbook -i ~/Projets/Ansible/inventory ~/Projets/Ansible/updatePassword.yml --extra-vars "host_name=${var.srvX_vm_name} newpassword=${var.vm_host_password2} remote_user=root user_name=root"
+      ansible-playbook -i ~/Projets/Ansible/inventory ~/Projets/Ansible/ResizeLinuxDisks.yml --extra-vars "host_name=${var.srvX_vm_name} remote_user=root primary_disk=/dev/sda2 vg_name=centos lv_swap=swap
+    EOT
+  }
 }

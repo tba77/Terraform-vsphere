@@ -69,3 +69,7 @@ variable "vm_folder_name" {
 variable "vm_host_password" {
   description = "Administrtor password for windows"
 }
+
+variable "vm_host_password2" {
+  description = "New password for linux servers after install"
+}
