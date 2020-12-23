@@ -2,24 +2,26 @@
 
 (
 echo d
+sleep 1
 echo 2
-echo n       # Add a new partition
-echo e       # extended partition
-echo 501758  # Partition number
-echo         # First sector (Accept default: 1)
-echo         # Last sector (Accept default: varies)
-echo n       # Add a new partition
-#echo 5       # Partition number
-echo         # First sector (Accept default: 1)
-echo         # Last sector (Accept default: varies)
+sleep 1
+echo n # Add a new partition
+sleep 1
+echo p # Primary partition
+sleep 1
+echo 2 # Partition number
+sleep 1
+echo   # First sector (Accept default: 1)
+sleep 1
+echo   # Last sector (Accept default: varies)
+sleep 1
 echo N
-echo x       # Go to expert mode
-echo b       # 
-echo 5       # partition number
-echo 501760  # change first sector
-echo r       # return to previous mode
-echo t       # define new disk fs type
-echo 5
+sleep 1
+echo t # define new disk fs type
+sleep 1
+echo 2
+sleep 1
 echo 8e #set disk to LVM fs
+sleep 1
 echo w # Write changes
-) | sudo fdisk /dev/sda
+) | fdisk /dev/sda

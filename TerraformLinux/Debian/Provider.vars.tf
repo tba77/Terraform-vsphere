@@ -71,5 +71,5 @@ variable "vm_host_password" {
 }
 
 variable "vm_host_password2" {
-  description = "Administrtor password for windows"
+  description = "New password for linux servers after install"
 }
