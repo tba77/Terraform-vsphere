@@ -4,7 +4,7 @@ variable "vsphere_user" {
 
 variable "vsphere_password" {
   description = "vsphere password"
-  default     = "$vsphere_password"
+  default     = "YOUR_VSPHERE_USER_PASSWORD"  #it's not safe to tape the password here I have to update and crypt passwords
 }
 
 variable "vsphere_server" {
