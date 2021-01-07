@@ -1,8 +1,8 @@
-srvX_vm_name             = "SERVER_NAME"
-srvX_vm_cpus             = "VCPU_NUMBER"
-srvX_vm_cores            = "CORE_NUMBER"
-srvX_vm_memory           = "MEMORY_SIZE_IN_MEGABYTE"
-srvX_vm_domain_name      = "YOUR_DOMAIN"
+srvX_vm_name                     = "SERVER_NAME"
+srvX_vm_cpus                     = "VCPU_NUMBER"
+srvX_vm_cores                    = "CORE_NUMBER"
+srvX_vm_memory                   = "MEMORY_SIZE_IN_MEGABYTE"
+srvX_vm_domain_name              = "YOUR_DOMAIN"
 srvX_vm_ip_address               = "YOUR_SERVER_IP"     #Comment if you use DHCP
 vm_network_cidr                  = "CIDR_NETMASK"   #Comment if you use DHCP
 srvX_vm_disk_size                = "DISK_SIZE_IN_GIGABYTE"
