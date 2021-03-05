@@ -36,7 +36,7 @@ resource "vsphere_virtual_machine" "srvX" {
     #    size             = data.vsphere_virtual_machine.template.disks.0.size
     eagerly_scrub    = data.vsphere_virtual_machine.template.disks.0.eagerly_scrub
     thin_provisioned = data.vsphere_virtual_machine.template.disks.0.thin_provisioned
-    io_limit         = var.srvX_io_limit
+    io_limit         = var.srvX_vm_io_limit
   }
 
   #disk {
@@ -76,13 +76,13 @@ resource "vsphere_virtual_machine" "srvX" {
   }
 
   provisioner "file" {
-    source = "extendlvm.sh" 
+    source      = "extendlvm.sh"
     destination = "extendlvm.sh"
 
     connection {
-      type = "ssh"
-      host = var.srvX_vm_ip_address
-      user = "root"
+      type     = "ssh"
+      host     = var.srvX_vm_ip_address
+      user     = "root"
       password = var.vm_host_password
     }
 
@@ -90,21 +90,21 @@ resource "vsphere_virtual_machine" "srvX" {
 
   provisioner "remote-exec" {
     connection {
-      type     = "ssh"
-      host     = var.srvX_vm_ip_address
-      user     = "root"
+      type = "ssh"
+      host = var.srvX_vm_ip_address
+      user = "root"
       #private_key = "${file("~/.ssh/id_rsa")}"
       password = var.vm_host_password
     }
-  
-      inline = [
-        "chmod +x extendlvm.sh && /bin/bash extendlvm.sh /dev/sda 2 apply",
-        "yum update -y"
-      ]
+
+    inline = [
+      "chmod +x extendlvm.sh && /bin/bash extendlvm.sh /dev/sda 2 apply",
+      "yum update -y"
+    ]
   }
 
   provisioner "local-exec" {
-   command = <<EOT
+    command = <<EOT
       /usr/local/bin/gsed -i '/\[linux-servers\]/a ${var.srvX_vm_name}      ansible_host=${var.srvX_vm_ip_address}' ${var.ansible_inventory_path}
       ansible-playbook -i ${var.ansible_inventory_path} ${var.ansible_password_script_path} --extra-vars "host_name=${var.srvX_vm_name} newpassword=${var.vm_host_password2} remote_login=${var.ansible_remote_login} user_name=${var.ansible_user_name}"
       ansible-playbook -i ${var.ansible_inventory_path} ${var.ansible_resizedisk_script_path} --extra-vars "host_name=${var.srvX_vm_name} remote_login=${var.ansible_remote_login}"

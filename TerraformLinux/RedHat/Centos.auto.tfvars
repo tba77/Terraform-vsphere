@@ -4,7 +4,7 @@ srvX_vm_cores                    = "CORE_NUMBER"
 srvX_vm_memory                   = "MEMORY_SIZE_IN_MEGABYTE"
 srvX_vm_domain_name              = "YOUR_DOMAIN"
 srvX_vm_ip_address               = "YOUR_SERVER_IP"     #Comment if you use DHCP
-vm_network_cidr                  = "CIDR_NETMASK"   #Comment if you use DHCP
+vm_network_cidr                  = "CIDR_NETMASK"       #Comment if you use DHCP
 srvX_vm_disk_size                = "DISK_SIZE_IN_GIGABYTE"
 srvX_vm_io_limit                 = "DISK_IOPS_LIMIT"
 #srvX_vm_disk_size2              = "DISK2_SIZE"
@@ -22,6 +22,5 @@ vm_host_password2                = "YOUR_PASSWORD"
 ansible_inventory_path           = "YOUR_ANSIBLE_INVENTORY_PATH" 
 ansible_password_script_path     = "YOUR_PATH/updatePassword.yml"
 ansible_remote_login             = "YOUR_SSH_LOGIN"
-ansible_user                     = "USER_WHOSE_PASSWORD_WILL_BE_MODIFIED"
+ansible_user_name                = "USER_WHOSE_PASSWORD_WILL_BE_MODIFIED"
 ansible_resizedisk_script_path   = "YOUR_PATH/ResizeLinuxDisks.yml"
-        

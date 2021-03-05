@@ -26,7 +26,7 @@ variable "srvX_vm_disk_size" {
   description = "Disk size"
 }
 
-variable "srvX_io_limit" {
+variable "srvX_vm_io_limit" {
   description = "Disk IOPS limitation"
 }
 
