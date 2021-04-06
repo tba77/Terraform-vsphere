@@ -73,3 +73,23 @@ variable "vm_host_password" {
 variable "vm_host_password2" {
   description = "New password for linux servers after install"
 }
+
+variable "ansible_inventory_path" {
+  description = "Path to ansible inventory"
+}
+
+variable "ansible_password_script_path" {
+  description = "Path to Update Password Script"
+}
+
+variable "ansible_remote_login" {
+  description = "Rmote host login"
+}
+
+variable "ansible_user_name" {
+  description = "User whose password will change"
+}
+
+variable "ansible_resizedisk_script_path" {
+  description = "Path to ansible Resize Disks Script"
+}

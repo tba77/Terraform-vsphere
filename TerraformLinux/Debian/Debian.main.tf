@@ -97,18 +97,17 @@ resource "vsphere_virtual_machine" "srvX" {
     }
   
       inline = [
-        "chmod +x extendlvm.sh && sh extendlvm.sh /dev/sda 5 apply",
+        "chmod +x extendlvm.sh",
         "apt update -y",
         "apt dist-upgrade -y"
         
       ]
   }
-
+# /usr/local/bin/gsed -i '/\[linux-servers\]/a ${var.srvX_vm_name}      ansible_host=${var.srvX_vm_ip_address}' ${var.ansible_inventory_path}
   provisioner "local-exec" {
     command = <<EOT
-        /usr/local/bin/gsed -i '/\[linux-servers\]/a ${var.srvX_vm_name}      ansible_host=${var.srvX_vm_ip_address}' ${var.ansible_inventory_path}
-        ansible-playbook -i ${var.ansible_inventory_path} ${var.ansible_password_script_path} --extra-vars "host_name=${var.srvX_vm_name} newpassword=${var.vm_host_password2} remote_login=${var.ansible_remote_login} user_name=${var.ansible_user_name}"
-        ansible-playbook -i ${var.ansible_inventory_path} ${var.ansible_resizedisk_script_path} --extra-vars "host_name=${var.srvX_vm_name} remote_login=${var.ansible_remote_login}"
+        ansible-playbook -i ${var.ansible_inventory_path} ${var.ansible_password_script_path} --extra-vars "remote_host=${var.srvX_vm_name} newpassword=${var.vm_host_password2} remote_login=${var.ansible_remote_login} user_name=${var.ansible_user_name}"
+        ansible-playbook -i ${var.ansible_inventory_path} ${var.ansible_resizedisk_script_path} --extra-vars "remote_host=${var.srvX_vm_name} remote_login=${var.ansible_remote_login}"
       EOT
   }
 }

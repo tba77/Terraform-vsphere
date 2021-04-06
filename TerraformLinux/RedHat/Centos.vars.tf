@@ -29,23 +29,3 @@ variable "srvX_vm_disk_size" {
 variable "srvX_vm_io_limit" {
   description = "Disk IOPS limitation"
 }
-
-variable "ansible_inventory_path" {
-  description = "Path to ansible inventory"
-}
-
-variable "ansible_password_script_path" {
-  description = "Path to Update Password Script"
-}
-
-variable "ansible_remote_login" {
-  description = "Rmote host login"
-}
-
-variable "ansible_user_name" {
-  description = "User whose password will change"
-}
-
-variable "ansible_resizedisk_script_path" {
-  description = "Path to ansible Resize Disks Script"
-}

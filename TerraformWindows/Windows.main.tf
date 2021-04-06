@@ -106,11 +106,10 @@ resource "vsphere_virtual_machine" "SrvX" {
   #    ]
   
   #}
-  
+  # /usr/local/bin/gsed -i '/\[windows-servers\]/a ${var.SrvX_vm_name}      ansible_host=${var.SrvX_vm_ip_address}    ansible_password="${var.SrvX_vm_admin_password}"' ${var.inventory_path}
   provisioner "local-exec" {
     command = <<EOT
-      /usr/local/bin/gsed -i '/\[windows-servers\]/a ${var.SrvX_vm_name}      ansible_host=${var.SrvX_vm_ip_address}    ansible_password="${var.SrvX_vm_admin_password}"' ${var.inventory_path}
-      ansible-playbook -i ${var.inventory_path} ${var.ansible_folder}/resizeDisk.yml --extra-vars "host_name=${var.SrvX_vm_name}"
+      ansible-playbook -i ${var.inventory_path} ${var.ansible_folder}/resizeDisk.yml --extra-vars "remote_host=${var.SrvX_vm_name}"
     EOT
   }
 
