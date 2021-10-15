@@ -1,5 +1,7 @@
 resource "vsphere_virtual_machine" "srvX" {
-  name                        = var.srvX_vm_name
+  count                       = var.srvX_instances
+  name                        = "${var.srvX_vm_name}-Srv${count.index + 1}"
+  #name                        = "%{if var.srvX_vm_name != ""}${var.srvX_vm_name}%{else}${var.srvX_vm_name}${count.index + 1}%{endif}"
   folder                      = var.vm_folder_name
   wait_for_guest_net_routable = false
   wait_for_guest_net_timeout  = 60
@@ -15,9 +17,16 @@ resource "vsphere_virtual_machine" "srvX" {
   guest_id  = data.vsphere_virtual_machine.template.guest_id
   scsi_type = data.vsphere_virtual_machine.template.scsi_type
 
-  network_interface {
-    network_id   = data.vsphere_network.network.id
-    adapter_type = data.vsphere_virtual_machine.template.network_interface_types[0]
+  #network_interface {
+  #  network_id   = data.vsphere_network.network.id
+  #  adapter_type = data.vsphere_virtual_machine.template.network_interface_types[0]
+  #}
+  dynamic "network_interface" {
+    for_each = keys(var.network) #data.vsphere_network.network[*].id #other option
+    content {
+      network_id   = data.vsphere_network.network[network_interface.key].id
+      adapter_type = var.vm_network_type != null ? var.vm_network_type[network_interface.key] : data.vsphere_virtual_machine.template.network_interface_types[0]
+    }
   }
 
   #network_interface {
@@ -66,48 +75,50 @@ resource "vsphere_virtual_machine" "srvX" {
         domain    = var.srvX_vm_domain_name
       }
 
-      network_interface {
-        ipv4_address = var.srvX_vm_ip_address
-        ipv4_netmask = var.vm_network_cidr
+      dynamic "network_interface" {
+        for_each = keys(var.network)
+        content {
+          ipv4_address = var.network[keys(var.network)[network_interface.key]][count.index]
+          ipv4_netmask = "%{if length(var.vm_network_cidr) == 1}${var.vm_network_cidr[0]}%{else}${var.vm_network_cidr[network_interface.key]}%{endif}"
+        }
       }
       dns_server_list = [var.vm_dns_server, var.vm_dns_server2]
       ipv4_gateway    = var.vm_default_gateway
     }
   }
 
-  provisioner "file" {
-    source      = "extendlvm.sh"
-    destination = "extendlvm.sh"
+#  provisioner "file" {
+#    source      = "extendlvm.sh"
+#    destination = "extendlvm.sh"
 
-    connection {
-      type     = "ssh"
-      host     = var.srvX_vm_ip_address
-      user     = "root"
-      password = var.vm_host_password
-    }
+#    connection {
+#      type     = "ssh"
+#      host     = var.srvX_vm_ip_address
+#      user     = "root"
+#      password = var.vm_host_password
+#    }
 
-  }
+#  }
 
-  provisioner "remote-exec" {
-    connection {
-      type = "ssh"
-      host = var.srvX_vm_ip_address
-      user = "root"
+#  provisioner "remote-exec" {
+#    connection {
+#      type = "ssh"
+#      host = var.srvX_vm_ip_address
+#      user = "root"
       #private_key = "${file("~/.ssh/id_rsa")}"
-      password = var.vm_host_password
-    }
+#      password = var.vm_host_password
+#    }
 
-    inline = [
-      "chmod +x extendlvm.sh && /bin/bash extendlvm.sh /dev/sda 2 apply",
-      "yum update -y"
-    ]
-  }
+#    inline = [
+#      "yum update -y"
+#    ]
+#  }
 
   provisioner "local-exec" {
     command = <<EOT
-      /usr/local/bin/gsed -i '/\[linux-servers\]/a ${var.srvX_vm_name}      ansible_host=${var.srvX_vm_ip_address}' ${var.ansible_inventory_path}
-      ansible-playbook -i ${var.ansible_inventory_path} ${var.ansible_password_script_path} --extra-vars "host_name=${var.srvX_vm_name} newpassword=${var.vm_host_password2} remote_login=${var.ansible_remote_login} user_name=${var.ansible_user_name}"
-      ansible-playbook -i ${var.ansible_inventory_path} ${var.ansible_resizedisk_script_path} --extra-vars "host_name=${var.srvX_vm_name} remote_login=${var.ansible_remote_login}"
+      ansible-playbook -i ${var.ansible_inventory_path} ${var.ansible_password_script_path} --extra-vars "remote_host=${var.srvX_vm_name}-Srv${count.index + 1} newpassword=${var.vm_host_password2} remote_login=${var.ansible_remote_login} user_name=${var.ansible_user_name}"
+      ansible-playbook -i ${var.ansible_inventory_path} ${var.ansible_resizedisk_script_path} --extra-vars "remote_host=${var.srvX_vm_name}-Srv${count.index + 1} remote_login=${var.ansible_remote_login} swap_size=${var.srvX_vm_swap_size}"
+      ansible-playbook -i ${var.ansible_inventory_path} ${var.ansible_update_os_script_path} --extra-vars "remote_host=${var.srvX_vm_name}-Srv${count.index + 1} remote_login=${var.ansible_remote_login}
     EOT
   }
 }

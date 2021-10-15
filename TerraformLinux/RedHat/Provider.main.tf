@@ -31,8 +31,14 @@ data "vsphere_compute_cluster" "cluster" {
   datacenter_id = data.vsphere_datacenter.dc.id
 }
 
+#data "vsphere_network" "network" {
+#  name          = var.vsphere_network
+#  datacenter_id = data.vsphere_datacenter.dc.id
+#}
+
 data "vsphere_network" "network" {
-  name          = var.vsphere_network
+  count         = length(var.network)
+  name          = keys(var.network)[count.index]
   datacenter_id = data.vsphere_datacenter.dc.id
 }
 

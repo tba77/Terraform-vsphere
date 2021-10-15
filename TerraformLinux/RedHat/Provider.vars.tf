@@ -4,7 +4,7 @@ variable "vsphere_user" {
 
 variable "vsphere_password" {
   description = "vsphere password"
-  default     = "YOUR_VSPHERE_PASSWORD"
+  default     = "uA4q$y_:p$p"
 }
 
 variable "vsphere_server" {
@@ -19,8 +19,14 @@ variable "vsphere_cluster" {
   description = "VMware vSphere Computer Cluster Name"
 }
 
-variable "vsphere_network" {
-  description = "VMware vSphere Network Name"
+#variable "vsphere_network" {
+#  description = "VMware vSphere Network Name"
+#}
+
+variable "network" {
+  description = "Define PortGroup and IPs for each VM"
+  type        = map(list(string))
+  default     = {}
 }
 
 #variable "vsphere_network2" {
@@ -43,9 +49,21 @@ variable "vm_default_gateway" {
   description = "Virtual machine default gateway"
 }
 
+#variable "vm_network_cidr" {
+#  description = "Virtual machine network cidr"
+#  default     = 29
+#}
+
+variable "vm_network_type" {
+  description = "Define network type for each network interface."
+  type        = list(any)
+  default     = null
+}
+
 variable "vm_network_cidr" {
-  description = "Virtual machine network cidr"
-  default     = 29
+  description = "ipv4 Subnet mask."
+  type        = list(any)
+  default     = ["24"]
 }
 
 variable "vm_dns_server" {
@@ -54,8 +72,8 @@ variable "vm_dns_server" {
 }
 
 variable "vm_dns_server2" {
-   description = "Virtual machine secondary dns server"
-   default     = "8.8.8.8"
+  description = "Virtual machine secondary dns server"
+  default     = "8.8.8.8"
 }
 
 variable "vm_folder_name" {
@@ -92,4 +110,8 @@ variable "ansible_user_name" {
 
 variable "ansible_resizedisk_script_path" {
   description = "Path to ansible Resize Disks Script"
+}
+
+variable "ansible_update_os_script_path" {
+  description = "Ansible playbook update os path"
 }

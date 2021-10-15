@@ -20,6 +20,12 @@ variable "srvX_vm_domain_name" {
 
 variable "srvX_vm_ip_address" {
   description = "Virtual machine IP address"
+  
+}
+
+variable "srvX_instances" {
+  description = "Number of VM instances"
+  default = 1
 }
 
 variable "srvX_vm_disk_size" {
@@ -28,4 +34,9 @@ variable "srvX_vm_disk_size" {
 
 variable "srvX_vm_io_limit" {
   description = "Disk IOPS limitation"
+}
+
+variable "srvX_vm_swap_size" {
+  description = "Disk swap size for linux VM"
+  default = "4g"
 }

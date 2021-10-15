@@ -1,6 +1,6 @@
 resource "vsphere_folder" "folder" {
 
-  path          = "YOUR_VSPHERE_VM_FOLDER"
+  path          = "YOUR VM FOLDER NAME"
   type          = "vm"
   datacenter_id = data.vsphere_datacenter.dc.id
 }
