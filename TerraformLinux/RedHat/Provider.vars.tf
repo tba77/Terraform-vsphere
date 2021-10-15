@@ -4,7 +4,7 @@ variable "vsphere_user" {
 
 variable "vsphere_password" {
   description = "vsphere password"
-  default     = "uA4q$y_:p$p"
+  default     = "YOUR VSPHERE PASSWORD"
 }
 
 variable "vsphere_server" {

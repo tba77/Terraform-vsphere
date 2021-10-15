@@ -5,8 +5,10 @@ srvX_vm_memory                   = "MEMORY SIZE IN MB"
 srvX_vm_domain_name              = "YOUR DOMAIN NAME"
 srvX_instances                   = "NUMBER OF VM INSTANCES TO DEPLOY"
 srvX_vm_swap_size                = "SWAP SIZE FOR RESIZING DISK SCRIPT"
-vm_network_type                     = ["NETWORK CARD TYPE vmxnet3 or E1000"]
-network                          = { "PORT GROUP" = ["IP ADDRESS 1", "IP ADDRESS 2"]  }
+vm_network_type                     = ["NETWORK CARD TYPE vmxnet3 or E1000","NETWORK CARD TYPE 2"]
+network                          = { "PORT GROUP NAME" = ["IP ADDRESS 1", "IP ADDRESS 2"]  
+                                    "PORT GROPU NAME2" = ["IP ADDRESS 1", "IP ADDRESS 2"]
+                                    }
 vm_network_cidr                  = ["NETWORK MASK CIDR"] # Comment if you use DHCP
 srvX_vm_disk_size                = "DISK SIZE IN GIGABYTE"
 srvX_vm_io_limit                 = "IOPS LIMIT"

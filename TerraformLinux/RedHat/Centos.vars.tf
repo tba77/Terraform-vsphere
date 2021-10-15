@@ -4,6 +4,7 @@ variable "srvX_vm_name" {
 
 variable "srvX_vm_cpus" {
   description = "Number of vCPUs"
+  default     = "2"
 }
 
 variable "srvX_vm_cores" {

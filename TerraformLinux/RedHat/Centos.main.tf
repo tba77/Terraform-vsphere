@@ -1,7 +1,6 @@
 resource "vsphere_virtual_machine" "srvX" {
   count                       = var.srvX_instances
   name                        = "${var.srvX_vm_name}-Srv${count.index + 1}"
-  #name                        = "%{if var.srvX_vm_name != ""}${var.srvX_vm_name}%{else}${var.srvX_vm_name}${count.index + 1}%{endif}"
   folder                      = var.vm_folder_name
   wait_for_guest_net_routable = false
   wait_for_guest_net_timeout  = 60
@@ -17,10 +16,6 @@ resource "vsphere_virtual_machine" "srvX" {
   guest_id  = data.vsphere_virtual_machine.template.guest_id
   scsi_type = data.vsphere_virtual_machine.template.scsi_type
 
-  #network_interface {
-  #  network_id   = data.vsphere_network.network.id
-  #  adapter_type = data.vsphere_virtual_machine.template.network_interface_types[0]
-  #}
   dynamic "network_interface" {
     for_each = keys(var.network) #data.vsphere_network.network[*].id #other option
     content {
@@ -28,16 +23,6 @@ resource "vsphere_virtual_machine" "srvX" {
       adapter_type = var.vm_network_type != null ? var.vm_network_type[network_interface.key] : data.vsphere_virtual_machine.template.network_interface_types[0]
     }
   }
-
-  #network_interface {
-  #  network_id   = data.vsphere_network.network2.id
-  #  adapter_type = data.vsphere_virtual_machine.template.network_interface_types[0]
-  #}
-
-  #network_interface {
-  #  network_id   = data.vsphere_network.network3.id
-  #  adapter_type = data.vsphere_virtual_machine.template.network_interface_types[0]
-  #}
 
   disk {
     label = "disk0"
@@ -86,33 +71,6 @@ resource "vsphere_virtual_machine" "srvX" {
       ipv4_gateway    = var.vm_default_gateway
     }
   }
-
-#  provisioner "file" {
-#    source      = "extendlvm.sh"
-#    destination = "extendlvm.sh"
-
-#    connection {
-#      type     = "ssh"
-#      host     = var.srvX_vm_ip_address
-#      user     = "root"
-#      password = var.vm_host_password
-#    }
-
-#  }
-
-#  provisioner "remote-exec" {
-#    connection {
-#      type = "ssh"
-#      host = var.srvX_vm_ip_address
-#      user = "root"
-      #private_key = "${file("~/.ssh/id_rsa")}"
-#      password = var.vm_host_password
-#    }
-
-#    inline = [
-#      "yum update -y"
-#    ]
-#  }
 
   provisioner "local-exec" {
     command = <<EOT
