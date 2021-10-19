@@ -1,7 +1,7 @@
 vsphere_server           = "YOUR VSPHRE IP OR DNS"
 vsphere_user             = "YOUR VSPHERE USER"
 vsphere_datacenter       = "VSPHERE DATACENTER NAME"
-vsphere_pool             = "VSPHERE CLUSTER/Resources" #for pool 0 (default pool)
+# vsphere_pool             = "VSPHERE CLUSTER/Resources" #for pool 0 (default pool)
 vsphere_cluster          = "VSPHERE CLUSTER NAME"
 vsphere_datastore        = "YOUR VSPHERE DATASTORE NAME"
 #vsphere_datastore2      = "YOUR_VSPHERE_DATASTORE2_NAME"

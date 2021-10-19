@@ -1,5 +1,6 @@
 resource "vsphere_virtual_machine" "SrvX" {
-  name                        = var.srvX_vm_name
+  count                       = var.srvX_instances
+  name                        = "${var.srvX_vm_name}-Srv${count.index + 1}"
   folder                      = var.vm_folder_name
   wait_for_guest_net_routable = false
   wait_for_guest_net_timeout  = 60
@@ -15,15 +16,29 @@ resource "vsphere_virtual_machine" "SrvX" {
   guest_id  = data.vsphere_virtual_machine.template.guest_id
   scsi_type = data.vsphere_virtual_machine.template.scsi_type
 
-  network_interface {
-    network_id   = data.vsphere_network.network.id
-    adapter_type = data.vsphere_virtual_machine.template.network_interface_types[0]
+  dynamic "network_interface" {
+    for_each = keys(var.network) #data.vsphere_network.network[*].id #other option
+    content {
+      network_id   = data.vsphere_network.network[network_interface.key].id
+      adapter_type = var.vm_network_type != null ? var.vm_network_type[network_interface.key] : data.vsphere_virtual_machine.template.network_interface_types[0]
+    }
   }
 
-  #network_interface {
-  #  network_id   = data.vsphere_network.network2.id
-  #  adapter_type = data.vsphere_virtual_machine.template.network_interface_types[0]
-  #}
+  # dynamic "network_interface" {
+  #   for_each = keys(var.network2) #data.vsphere_network.network[*].id #other option
+  #   content {
+  #     network_id   = data.vsphere_network.network2[network_interface.key].id
+  #     adapter_type = var.vm_network_type != null ? var.vm_network_type[network_interface.key] : data.vsphere_virtual_machine.template.network_interface_types[0]
+  #   }
+  # }
+
+  #   dynamic "network_interface" {
+  #   for_each = keys(var.network3) #data.vsphere_network.network[*].id #other option
+  #   content {
+  #     network_id   = data.vsphere_network.network3[network_interface.key].id
+  #     adapter_type = var.vm_network_type != null ? var.vm_network_type[network_interface.key] : data.vsphere_virtual_machine.template.network_interface_types[0]
+  #   }
+  # }
 
   #network_interface {
   #  network_id   = data.vsphere_network.network3.id
@@ -67,20 +82,28 @@ resource "vsphere_virtual_machine" "SrvX" {
         full_name      = "Administrateur"
       }
 
-      network_interface {
-        ipv4_address = var.srvX_vm_ip_address
-        ipv4_netmask = var.vm_network_cidr
+      dynamic "network_interface" {
+        for_each = keys(var.network)
+        content {
+          ipv4_address = var.network[keys(var.network)[network_interface.key]][count.index]
+          ipv4_netmask = "%{if length(var.vm_network_cidr) == 1}${var.vm_network_cidr[0]}%{else}${var.vm_network_cidr[network_interface.key]}%{endif}"
+        }
       }
+      #       dynamic "network_interface" {
+      #   for_each = keys(var.network2)
+      #   content {
+      #     ipv4_address = var.network2[keys(var.network2)[network_interface.key]][count.index]
+      #     ipv4_netmask = "%{if length(var.vm_network_cidr) == 1}${var.vm_network_cidr[0]}%{else}${var.vm_network_cidr[network_interface.key]}%{endif}"
+      #   }
+      # }
+      #       dynamic "network_interface" {
+      #   for_each = keys(var.network3)
+      #   content {
+      #     ipv4_address = var.network3[keys(var.network3)[network_interface.key]][count.index]
+      #     ipv4_netmask = "%{if length(var.vm_network_cidr) == 1}${var.vm_network_cidr[0]}%{else}${var.vm_network_cidr[network_interface.key]}%{endif}"
+      #   }
+      # }
 
-      #network_interface {
-      #  ipv4_address = var.srvX_vm_ip_address2
-      #  ipv4_netmask = var.vm_network_cidr2
-      #}
-
-      #network_interface {
-      #  ipv4_address = var.srvX_vm_ip_address3
-      #  ipv4_netmask = var.vm_network_cidr3
-      #}
       dns_server_list = [var.vm_dns_server, var.vm_dns_server2]
       ipv4_gateway    = var.vm_default_gateway
     }

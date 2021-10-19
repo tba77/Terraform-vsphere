@@ -24,6 +24,22 @@ resource "vsphere_virtual_machine" "srvX" {
     }
   }
 
+    # dynamic "network_interface" {
+  #   for_each = keys(var.network2) #data.vsphere_network.network[*].id #other option
+  #   content {
+  #     network_id   = data.vsphere_network.network2[network_interface.key].id
+  #     adapter_type = var.vm_network_type != null ? var.vm_network_type[network_interface.key] : data.vsphere_virtual_machine.template.network_interface_types[0]
+  #   }
+  # }
+
+  #   dynamic "network_interface" {
+  #   for_each = keys(var.network3) #data.vsphere_network.network[*].id #other option
+  #   content {
+  #     network_id   = data.vsphere_network.network3[network_interface.key].id
+  #     adapter_type = var.vm_network_type != null ? var.vm_network_type[network_interface.key] : data.vsphere_virtual_machine.template.network_interface_types[0]
+  #   }
+  # }
+
   disk {
     label = "disk0"
     size  = var.srvX_vm_disk_size

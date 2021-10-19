@@ -31,20 +31,29 @@ data "vsphere_compute_cluster" "cluster" {
   datacenter_id = data.vsphere_datacenter.dc.id
 }
 
+# data "vsphere_network" "network" {
+#  name          = var.vsphere_network
+#  datacenter_id = data.vsphere_datacenter.dc.id
+#}
+
 data "vsphere_network" "network" {
-  name          = var.vsphere_network
+  count         = length(var.network)
+  name          = keys(var.network)[count.index]
   datacenter_id = data.vsphere_datacenter.dc.id
 }
 
-#data "vsphere_network" "network2" {
-#  name          = var.vsphere_network2
-#  datacenter_id = data.vsphere_datacenter.dc.id
-#}
+# data "vsphere_network" "network2" {
+#   count         = length(var.network2)
+#   name          = keys(var.network2)[count.index]
+#   datacenter_id = data.vsphere_datacenter.dc.id
+# }
 
-#data "vsphere_network" "network3" {
-#  name          = var.vsphere_network3
-#  datacenter_id = data.vsphere_datacenter.dc.id
-#}
+# data "vsphere_network" "network3" {
+#   count         = length(var.network3)
+#   name          = keys(var.network3)[count.index]
+#   datacenter_id = data.vsphere_datacenter.dc.id
+# }
+
 
 data "vsphere_virtual_machine" "template" {
   name          = var.vsphere_template

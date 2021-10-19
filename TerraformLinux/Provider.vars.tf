@@ -4,7 +4,7 @@ variable "vsphere_user" {
 
 variable "vsphere_password" {
   description = "vsphere password"
-  default     = "YOUR VSPHERE PASSWORD"
+  default     = "YOUR VSPHERE PASSWORD" #it's not safe to input the password here I have to update and crypt passwords
 }
 
 variable "vsphere_server" {
@@ -19,15 +19,14 @@ variable "vsphere_cluster" {
   description = "VMware vSphere Computer Cluster Name"
 }
 
+variable "vsphere_pool" {
+  description = "Vsphere Pool"
+}
+
 #variable "vsphere_network" {
 #  description = "VMware vSphere Network Name"
 #}
 
-variable "network" {
-  description = "Define PortGroup and IPs for each VM"
-  type        = map(list(string))
-  default     = {}
-}
 
 #variable "vsphere_network2" {
 #  description = "VMWare secend Network Name"
