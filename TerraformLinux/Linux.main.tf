@@ -77,6 +77,7 @@ resource "vsphere_virtual_machine" "srvX" {
       ansible-playbook -i ${var.ansible_inventory_path} ${var.ansible_password_script_path} --extra-vars "remote_host=${var.srvX_vm_name}-Srv${count.index + 1} newpassword=${var.vm_host_password2} remote_login=${var.ansible_remote_login} user_name=${var.ansible_user_name}"
       ansible-playbook -i ${var.ansible_inventory_path} ${var.ansible_resizedisk_script_path} --extra-vars "remote_host=${var.srvX_vm_name}-Srv${count.index + 1} remote_login=${var.ansible_remote_login} swap_size=${var.srvX_vm_swap_size}"
       ansible-playbook -i ${var.ansible_inventory_path} ${var.ansible_update_os_script_path} --extra-vars "remote_host=${var.srvX_vm_name}-Srv${count.index + 1} remote_login=${var.ansible_remote_login}
+      ansible-playbook -i ${var.ansible_inventory_path} ${var.ansible_regen_ssh_script_path} --extra-vars "remote_host=${var.srvX_vm_name}-Srv${count.index + 1} remote_login=${var.ansible_remote_login}
     EOT
   }
 }
