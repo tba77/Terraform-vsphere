@@ -115,3 +115,7 @@ variable "ansible_resizedisk_script_path" {
 variable "ansible_update_os_script_path" {
   description = "Ansible playbook update os path"
 }
+
+variable "ansible_regen_ssh_script_path" {
+  description = "Path to regenkey script"
+}
