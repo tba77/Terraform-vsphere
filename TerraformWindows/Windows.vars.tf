@@ -3,9 +3,10 @@ variable "srvX_vm_name" {
 }
 
 variable "srvX_instances" {
-  descripdescription = "Number of VM instances"  
+  description = "Number of VM instances"
   default = 1
 }
+
 variable "srvX_vm_cpus" {
   description = "Number of vCPUs"
 }
@@ -65,3 +66,4 @@ variable "srvX_vm_host_name" {
 variable "srvX_vm_admin_password" {
   description = "Administrtor password for windows"
 }
+

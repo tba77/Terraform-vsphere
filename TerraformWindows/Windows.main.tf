@@ -17,15 +17,15 @@ resource "vsphere_virtual_machine" "SrvX" {
   scsi_type = data.vsphere_virtual_machine.template.scsi_type
 
   dynamic "network_interface" {
-    for_each = keys(var.network) #data.vsphere_network.network[*].id #other option
+    for_each = keys(var.srvX_network) #data.vsphere_network.network[*].id #other option
     content {
       network_id   = data.vsphere_network.network[network_interface.key].id
       adapter_type = var.vm_network_type != null ? var.vm_network_type[network_interface.key] : data.vsphere_virtual_machine.template.network_interface_types[0]
     }
   }
 
-  # dynamic "network_interface" {
-  #   for_each = keys(var.network2) #data.vsphere_network.network[*].id #other option
+    # dynamic "network_interface" {
+  #   for_each = keys(var.srvX_network2) #data.vsphere_network.network[*].id #other option
   #   content {
   #     network_id   = data.vsphere_network.network2[network_interface.key].id
   #     adapter_type = var.vm_network_type != null ? var.vm_network_type[network_interface.key] : data.vsphere_virtual_machine.template.network_interface_types[0]
@@ -33,17 +33,12 @@ resource "vsphere_virtual_machine" "SrvX" {
   # }
 
   #   dynamic "network_interface" {
-  #   for_each = keys(var.network3) #data.vsphere_network.network[*].id #other option
+  #   for_each = keys(var.srvX_network3) #data.vsphere_network.network[*].id #other option
   #   content {
   #     network_id   = data.vsphere_network.network3[network_interface.key].id
   #     adapter_type = var.vm_network_type != null ? var.vm_network_type[network_interface.key] : data.vsphere_virtual_machine.template.network_interface_types[0]
   #   }
   # }
-
-  #network_interface {
-  #  network_id   = data.vsphere_network.network3.id
-  #  adapter_type = data.vsphere_virtual_machine.template.network_interface_types[0]
-  #}
 
   disk {
     label = "disk0"
@@ -83,56 +78,20 @@ resource "vsphere_virtual_machine" "SrvX" {
       }
 
       dynamic "network_interface" {
-        for_each = keys(var.network)
+        for_each = keys(var.srvX_network)
         content {
-          ipv4_address = var.network[keys(var.network)[network_interface.key]][count.index]
+          ipv4_address = var.srvX_network[keys(var.srvX_network)[network_interface.key]][count.index]
           ipv4_netmask = "%{if length(var.vm_network_cidr) == 1}${var.vm_network_cidr[0]}%{else}${var.vm_network_cidr[network_interface.key]}%{endif}"
         }
       }
-      #       dynamic "network_interface" {
-      #   for_each = keys(var.network2)
-      #   content {
-      #     ipv4_address = var.network2[keys(var.network2)[network_interface.key]][count.index]
-      #     ipv4_netmask = "%{if length(var.vm_network_cidr) == 1}${var.vm_network_cidr[0]}%{else}${var.vm_network_cidr[network_interface.key]}%{endif}"
-      #   }
-      # }
-      #       dynamic "network_interface" {
-      #   for_each = keys(var.network3)
-      #   content {
-      #     ipv4_address = var.network3[keys(var.network3)[network_interface.key]][count.index]
-      #     ipv4_netmask = "%{if length(var.vm_network_cidr) == 1}${var.vm_network_cidr[0]}%{else}${var.vm_network_cidr[network_interface.key]}%{endif}"
-      #   }
-      # }
-
       dns_server_list = [var.vm_dns_server, var.vm_dns_server2]
       ipv4_gateway    = var.vm_default_gateway
     }
   }
 
-  #provisioner "remote-exec" {
-    
-  #  connection {
-  #    type         = "winrm"
-  #    host         = var.SrvX_vm_ip_address
-  #    port         = 5985
-  #    user         = "administrateur"
-  #    password     = var.SrvX_vm_admin_password
-  #    https        = true
-  #    insecure     = true
-  #    cacert       = false
-  #    use_ntlm     = false
-  #    timeout      = "1Om"
-  #  }
-    
-  #    inline = [
-  #      "dir"
-  #    ]
-  
-  #}
-  # /usr/local/bin/gsed -i '/\[windows-servers\]/a ${var.SrvX_vm_name}      ansible_host=${var.SrvX_vm_ip_address}    ansible_password="${var.SrvX_vm_admin_password}"' ${var.inventory_path}
   provisioner "local-exec" {
     command = <<EOT
-      ansible-playbook -i ${var.inventory_path} ${var.ansible_folder}/resizeDisk.yml --extra-vars "remote_host=${var.SrvX_vm_name}"
+      ansible-playbook -i ${var.ansible_inventory_path} ${var.ansible_resize_disk_path} --extra-vars "remote_host=${var.srvX_vm_name}"
     EOT
   }
 

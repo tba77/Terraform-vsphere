@@ -4,7 +4,7 @@ variable "vsphere_user" {
 
 variable "vsphere_password" {
   description = "vsphere password"
-  default     = "YOUR_VSPHERE_USER_PASSWORD"  #it's not safe to input the password here I have to update and crypt passwords
+  default     = "YOUR_VSPHERE_PASSWORD"  #it's not safe to tape the password here I have to update and crypt passwords
 }
 
 variable "vsphere_server" {
@@ -19,31 +19,17 @@ variable "vsphere_cluster" {
   description = "VMware vSphere Computer Cluster Name"
 }
 
-variable "vsphere_pool" {
-  description = "Vsphere Pool"
-}
-
 # variable "vsphere_network" {
-#  description = "VMware vSphere Network Name"
+#   description = "VMware vSphere Network Name"
 # }
 
-variable "network" {
-  description = "Define PortGroup and IPs for each VM"
-  type        = map(list(string))
-  default     = {}
-}
+#variable "vsphere_network2" {
+#  description = "VMWare secend Network Name"
+#}
 
-# variable "network2" {
-#   description = "Define PortGroup and IPs for each VM"
-#   type        = map(list(string))
-#   default     = {}
-# }
-
-# variable "network3" {
-#   description = "Define PortGroup and IPs for each VM"
-#   type        = map(list(string))
-#   default     = {}
-# }
+#variable "vsphere_network3" {
+#  description = "VMWare secend Network Name"
+#}
 
 variable "vsphere_datastore" {
   description = "VMware vSphere Datastore"
@@ -96,41 +82,13 @@ variable "vm_dns_server2" {
 }
 
 variable "vm_folder_name" {
-  description = "VM installation folder"
+  description = "VM installatino folder"
 }
 
-variable "vm_host_name" {
-  description = "Windows host name"
-}
-
-variable "vm_host_password" {
-  description = "Administrtor password for windows"
-}
-
-variable "vm_host_password2" {
-  description = "New password for linux servers after install"
+variable "ansible_resize_disk_path" {
+  description = "Ansible work directory"
 }
 
 variable "ansible_inventory_path" {
-  description = "Path to ansible inventory"
-}
-
-variable "ansible_password_script_path" {
-  description = "Path to Update Password Script"
-}
-
-variable "ansible_remote_login" {
-  description = "Rmote host login"
-}
-
-variable "ansible_user_name" {
-  description = "User whose password will change"
-}
-
-variable "ansible_resizedisk_script_path" {
-  description = "Path to ansible Resize Disks Script"
-}
-
-variable "ansible_update_os_script_path" {
-  description = "Ansible playbook update os path"
+  description = "Inventory PATH"
 }
