@@ -17,7 +17,7 @@ resource "vsphere_virtual_machine" "srvX" {
   scsi_type = data.vsphere_virtual_machine.template.scsi_type
 
   dynamic "network_interface" {
-    for_each = keys(var.network) #data.vsphere_network.network[*].id #other option
+    for_each = keys(var.srvX_network) #data.vsphere_network.network[*].id #other option
     content {
       network_id   = data.vsphere_network.network[network_interface.key].id
       adapter_type = var.vm_network_type != null ? var.vm_network_type[network_interface.key] : data.vsphere_virtual_machine.template.network_interface_types[0]
@@ -25,7 +25,7 @@ resource "vsphere_virtual_machine" "srvX" {
   }
 
     # dynamic "network_interface" {
-  #   for_each = keys(var.network2) #data.vsphere_network.network[*].id #other option
+  #   for_each = keys(var.srvX_network2) #data.vsphere_network.network[*].id #other option
   #   content {
   #     network_id   = data.vsphere_network.network2[network_interface.key].id
   #     adapter_type = var.vm_network_type != null ? var.vm_network_type[network_interface.key] : data.vsphere_virtual_machine.template.network_interface_types[0]
@@ -33,7 +33,7 @@ resource "vsphere_virtual_machine" "srvX" {
   # }
 
   #   dynamic "network_interface" {
-  #   for_each = keys(var.network3) #data.vsphere_network.network[*].id #other option
+  #   for_each = keys(var.srvX_network3) #data.vsphere_network.network[*].id #other option
   #   content {
   #     network_id   = data.vsphere_network.network3[network_interface.key].id
   #     adapter_type = var.vm_network_type != null ? var.vm_network_type[network_interface.key] : data.vsphere_virtual_machine.template.network_interface_types[0]
@@ -77,9 +77,9 @@ resource "vsphere_virtual_machine" "srvX" {
       }
 
       dynamic "network_interface" {
-        for_each = keys(var.network)
+        for_each = keys(var.srvX_network)
         content {
-          ipv4_address = var.network[keys(var.network)[network_interface.key]][count.index]
+          ipv4_address = var.srvX_network[keys(var.srvX_network)[network_interface.key]][count.index]
           ipv4_netmask = "%{if length(var.vm_network_cidr) == 1}${var.vm_network_cidr[0]}%{else}${var.vm_network_cidr[network_interface.key]}%{endif}"
         }
       }
@@ -92,8 +92,8 @@ resource "vsphere_virtual_machine" "srvX" {
     command = <<EOT
       ansible-playbook -i ${var.ansible_inventory_path} ${var.ansible_password_script_path} --extra-vars "remote_host=${var.srvX_vm_name}-Srv${count.index + 1} newpassword=${var.vm_host_password2} remote_login=${var.ansible_remote_login} user_name=${var.ansible_user_name}"
       ansible-playbook -i ${var.ansible_inventory_path} ${var.ansible_resizedisk_script_path} --extra-vars "remote_host=${var.srvX_vm_name}-Srv${count.index + 1} remote_login=${var.ansible_remote_login} swap_size=${var.srvX_vm_swap_size}"
-      ansible-playbook -i ${var.ansible_inventory_path} ${var.ansible_update_os_script_path} --extra-vars "remote_host=${var.srvX_vm_name}-Srv${count.index + 1} remote_login=${var.ansible_remote_login}
-      ansible-playbook -i ${var.ansible_inventory_path} ${var.ansible_regen_ssh_script_path} --extra-vars "remote_host=${var.srvX_vm_name}-Srv${count.index + 1} remote_login=${var.ansible_remote_login}
+      ansible-playbook -i ${var.ansible_inventory_path} ${var.ansible_update_os_script_path} --extra-vars "remote_host=${var.srvX_vm_name}-Srv${count.index + 1} remote_login=${var.ansible_remote_login}"
+      ansible-playbook -i ${var.ansible_inventory_path} ${var.ansible_regen_ssh_script_path} --extra-vars "remote_host=${var.srvX_vm_name}-Srv${count.index + 1} remote_login=${var.ansible_remote_login}"
     EOT
   }
 }

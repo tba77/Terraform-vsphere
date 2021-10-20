@@ -1,29 +1,29 @@
 srvX_vm_name                     = "VM_NAME"
 srvX_vm_cpus                     = "VCPU_NUMBER"
 srvX_vm_cores                    = "CPU_CORE_NUMBER"
-srvX_vm_memory                   = "MEMORY SIZE IN MB"
+srvX_vm_memory                   = "MEMORY_SIZE_IN_MB"
 srvX_vm_domain_name              = "YOUR DOMAIN NAME"
-srvX_instances                   = "NUMBER OF VM INSTANCES TO DEPLOY"
-srvX_vm_swap_size                = "SWAP SIZE FOR RESIZING DISK SCRIPT"
+srvX_instances                   = "NUMBER_OF_VM_INSTANCES_TO_DEPLOY"
+srvX_vm_swap_size                = "SWAP_SIZE_FOR_RESIZING_DISK_SCRIPT"
 vm_network_type                     = ["NETWORK CARD TYPE vmxnet3 or E1000","NETWORK CARD TYPE 2"]
-network                          = { "PORT GROUP NAME" = ["IP ADDRESS 1", "IP ADDRESS 2"]  
-                                    "PORT GROPU NAME2" = ["IP ADDRESS 1", "IP ADDRESS 2"]
+srvX_network                          = { "PORT GROUP NAME" = ["IP_ADDRESS_1", "IP_ADDRESS_2"]  
+                                    "PORT GROPU NAME2" = ["IP_ADDRESS_1", "IP_ADDRESS 2"]
                                     }
-vm_network_cidr                  = ["NETWORK MASK CIDR"] # Comment if you use DHCP
-srvX_vm_disk_size                = "DISK SIZE IN GIGABYTE"
-srvX_vm_io_limit                 = "IOPS LIMIT"
+vm_network_cidr                  = ["NETWORK_MASK_CIDR"] # Comment if you use DHCP
+srvX_vm_disk_size                = "DISK_SIZE_IN_GIGABYTE"
+srvX_vm_io_limit                 = "IOPS_LIMIT"
 # srvX_vm_disk_size2              = "DISK2_SIZE"
 # srvX_vm_io_limit2               = "DISK2_IOPS_LIMIT"
 # srvX_vm_ip_address2             = "YOUR_SERVER_IP2"
 # vm_network_cidr2                = "CIDR_NETMASK2"
 # srvX_vm_ip_address3             = "YOUR_SERVER_IP3"
 # vm_network_cidr3                = "CIDR_NETMASK3"
-vm_default_gateway               = "DEFAULT GATEWAY"
+vm_default_gateway               = "DEFAULT_GATEWAY"
 # vm_dns_server                   = "YOUR_PRIMARY_DNS"
 # vm_dns_server2                  = "YOUR_SECONDARY_DNS"
-vm_folder_name                   = "YOUR VM FOLDER"
-vm_host_password                 = "TEMPLATE PASSWORD"
-vm_host_password2                = "NEW PASSWORD TO APPLY"
+vm_folder_name                   = "YOUR_VM_FOLDER"
+vm_host_password                 = "TEMPLATE_PASSWORD"
+vm_host_password2                = "NEW PASSWORD_TO_APPLY"
 ansible_inventory_path           = "/YOUR/PATH/TO/inventory.yml" 
 ansible_password_script_path     = "/YOUR/PATH/TO/Ansible/updatePassword.yml"
 ansible_remote_login             = "root"

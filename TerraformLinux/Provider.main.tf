@@ -36,20 +36,20 @@ data "vsphere_compute_cluster" "cluster" {
 #  datacenter_id = data.vsphere_datacenter.dc.id
 #}
 data "vsphere_network" "network" {
-  count         = length(var.network)
-  name          = keys(var.network)[count.index]
+  count         = length(var.srvX_network)
+  name          = keys(var.srvX_network)[count.index]
   datacenter_id = data.vsphere_datacenter.dc.id
 }
 
 # data "vsphere_network" "network2" {
-#   count         = length(var.network2)
-#   name          = keys(var.network2)[count.index]
+#   count         = length(var.srvX_network2)
+#   name          = keys(var.srvX_network2)[count.index]
 #   datacenter_id = data.vsphere_datacenter.dc.id
 # }
 
 # data "vsphere_network" "network3" {
-#   count         = length(var.network3)
-#   name          = keys(var.network3)[count.index]
+#   count         = length(var.srvX_network3)
+#   name          = keys(var.srvX_network3)[count.index]
 #   datacenter_id = data.vsphere_datacenter.dc.id
 # }
 
