@@ -66,6 +66,15 @@ Ansible scripts are used to resize disk as used template has 5G of disk space, u
 
 When a team share the same infrastructure configuration, the infrastructure state must be shared between team members this could be done on different clouds but here we will use gitlab as a shared state backend
 
+first create a file for example `backend.tf` with the following
+
+```
+terraform {
+    backend "http" {
+    }
+}
+```
+
 ```
 terraform init \
     -backend-config="address=https://gitlab.com/api/v4/projects/<PROJECT-ID>/terraform/state/<STATE-NAME>" \
