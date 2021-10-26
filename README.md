@@ -74,6 +74,10 @@ terraform {
     }
 }
 ```
+On provider and state initialization add the following arguments where:
+* STATE-NAME: a given name to your state file
+* PROJECT-ID : The ID given by gitlab
+* API-TOKEN: the token generated at User's preferences --> Acces Token with API scope
 
 ```
 terraform init \
