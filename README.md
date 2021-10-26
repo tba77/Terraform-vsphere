@@ -90,3 +90,20 @@ terraform init \
     -backend-config="unlock_method=DELETE" \
     -backend-config="retry_wait_min=5"
 ```
+Or you can add all configuration into the `backend.tf` file
+
+```
+terraform {
+    backend "http" {
+        address = "https://gitlab.com/api/v4/projects/<PROJECT-ID>/terraform/state/<STATE-NAME>"
+        lock_address = "https://gitlab.com/api/v4/projects/<PROJECT-ID>/terraform/state/<STATE-NAME>/lock"
+        unlock_address = "https://gitlab.com/api/v4/projects/<PROJECT-ID>/terraform/state/<STATE-NAME>/lock"
+        lock_method = "POST"
+        unlock_method = "DELETE"
+        username = "USERNAME"
+        password = "API-TOKEN"
+        retry_wait_min = 5
+        skip_cert_verification = true
+    }
+}
+```
