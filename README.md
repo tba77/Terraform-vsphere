@@ -61,3 +61,19 @@ terraform apply someFile //someFile is the same file generated with -out argumen
 ### Ansible scripts
 
 Ansible scripts are used to resize disk as used template has 5G of disk space, update OS, change root password and regenerate ssh-keys 
+
+### Use Gitlab as terraform backend state
+
+When a team share the same infrastructure configuration, the infrastructure state must be shared between team members this could be done on different clouds but here we will use gitlab as a shared state backend
+
+```
+terraform init \
+    -backend-config="address=https://gitlab.com/api/v4/projects/<PROJECT-ID>/terraform/state/<STATE-NAME>" \
+    -backend-config="lock_address=https://gitlab.com/api/v4/projects/<PROJECT-ID>/terraform/state/<STATE-NAME>/lock" \
+    -backend-config="unlock_address=https://gitlab.com/api/v4/projects/<PROJECT-ID>/terraform/state/<STATE-NAME>/lock" \
+    -backend-config="username=USERNAME" \
+    -backend-config="password=API-TOKEN" \
+    -backend-config="lock_method=POST" \
+    -backend-config="unlock_method=DELETE" \
+    -backend-config="retry_wait_min=5"
+```
