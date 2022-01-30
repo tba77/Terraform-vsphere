@@ -13,7 +13,7 @@ To install terraform go to hashicorp website and follow the get started tuorial 
 
 Just replace each value with your own configuration 
 
-```
+```terraform
 srvX_vm_name                     = "VM_NAME"
 srvX_vm_cpus                     = "VCPU_NUMBER"
 srvX_vm_cores                    = "CPU_CORE_NUMBER"
@@ -51,7 +51,7 @@ ansible_regen_ssh_script_path    = "/YOUR/PATH/TO/sshkeygen.yml"
 
 ### Deploy your infrastructure
 
-```
+```bash
 cd /your/terraform/files/directory 
 terraform init
 terraform plan -out someFile //-out is not mandatory
@@ -68,7 +68,7 @@ When a team share the same infrastructure configuration, the infrastructure stat
 
 first create a file for example `backend.tf` with the following
 
-```
+```terraform
 terraform {
     backend "http" {
     }
@@ -79,7 +79,7 @@ On provider and state initialization add the following arguments where:
 * PROJECT-ID : The ID given by gitlab
 * API-TOKEN: the token generated at User's preferences --> Acces Token with API scope
 
-```
+```bash
 terraform init \
     -backend-config="address=https://gitlab.com/api/v4/projects/<PROJECT-ID>/terraform/state/<STATE-NAME>" \
     -backend-config="lock_address=https://gitlab.com/api/v4/projects/<PROJECT-ID>/terraform/state/<STATE-NAME>/lock" \
@@ -92,7 +92,7 @@ terraform init \
 ```
 Or you can add all configuration into the `backend.tf` file
 
-```
+```terraform
 terraform {
     backend "http" {
         address = "https://gitlab.com/api/v4/projects/<PROJECT-ID>/terraform/state/<STATE-NAME>"
